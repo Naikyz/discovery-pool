@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <script src="../jquery-3.7.1.min.js"></script>
+</head>
+
+<style>
+    html {
+        height: 100vh;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    div {
+        width: 200px;
+        height: 200px;
+        background-color: red;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 100%;
+    }
+
+    button {
+        height: 50px;
+    }
+</style>
+
+<body>
+    <div id="balloon" onclick="core()">
+    </div>
+</body>
+
+<script>
+    let color = $("#balloon").css('background-color')
+    let balloonWidth = parseInt($("#balloon").css('width').replace(/[^0-9]/g, ''));
+    let balloonHeight = parseInt($("#balloon").css('height').replace(/[^0-9]/g, ''));
+
+    function changeColor(color) {
+        if (color === "rgb(255, 0, 0)")
+            $("#balloon").css('background-color', "rgb(0, 255, 0)")
+        else if (color === "rgb(0, 255, 0)")
+            $("#balloon").css('background-color', "rgb(0, 0, 255)")
+        else if (color === "rgb(0, 0, 255)")
+            $("#balloon").css('background-color', "rgb(255, 0, 0)")
+    }
+
+    function changeColorReverse(color) {
+        if (color === "rgb(0, 255, 0)")
+            $("#balloon").css('background-color', "rgb(255, 0, 0)")
+        else if (color === "rgb(0, 0, 255)")
+            $("#balloon").css('background-color', "rgb(0, 255, 0)")
+        else if (color === "rgb(255, 0, 0)")
+            $("#balloon").css('background-color', "rgb(0, 0, 255)")
+    }
+
+    function swell(balloonWidth, balloonHeight) {
+        if (balloonWidth + 10 < 420 && balloonHeight + 10 < 420) {
+            $("#balloon").css('width', balloonWidth + 10 + "px")
+            $("#balloon").css('height', balloonHeight + 10 + "px")
+        } else {
+            $("#balloon").css('width', "200px")
+            $("#balloon").css('height', "200px")
+        }
+    }
+
+    function unswell(balloonWidth, balloonHeight) {
+        if (balloonWidth - 5 > 200 && balloonHeight - 5 > 200) {
+            $("#balloon").css('width', balloonWidth - 5 + "px")
+            $("#balloon").css('height', balloonHeight - 5 + "px")
+        }
+    }
+
+    function core() {
+        color = $("#balloon").css('background-color')
+        balloonWidth = parseInt($("#balloon").css('width').replace(/[^0-9]/g, ''));
+        balloonHeight = parseInt($("#balloon").css('height').replace(/[^0-9]/g, ''));
+
+        changeColor(color)
+        swell(balloonWidth, balloonHeight)
+    }
+
+    balloon.addEventListener('mouseleave', () => {
+        color = $("#balloon").css('background-color')
+        balloonWidth = parseInt($("#balloon").css('width').replace(/[^0-9]/g, ''));
+        balloonHeight = parseInt($("#balloon").css('height').replace(/[^0-9]/g, ''));
+
+        changeColorReverse(color)
+        unswell(balloonWidth, balloonHeight)
+    })
+</script>
+
+</html>

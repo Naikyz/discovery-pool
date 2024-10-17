@@ -1,0 +1,59 @@
+html {
+    background-color: rgb(215, 215, 215);
+}
+
+img  {
+    border-radius: 10px;
+    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+}
+  
+.menu {
+    position: fixed;
+    width: 0px;
+    z-index: 10;
+}
+  
+#hamburger {
+    display: none;
+}
+  
+#hamburger-logo {
+    cursor: pointer;
+    background: black;
+    width: 200px;
+    display: block;
+    color: white;
+    text-align: right;
+    transform: translateX(-128px);
+    padding: 10px;
+}
+  
+nav {
+    display: flex;
+    flex-direction: column;
+    background: black;
+    overflow: hidden;
+    width: 200px;
+    transform: translateX(-300px);
+}
+  
+#hamburger-logo,
+nav {
+    transition: 0.7s;
+}
+  
+#hamburger:checked ~ #hamburger-logo,
+#hamburger:checked ~ nav {
+    transform: translate(0);
+}
+  
+nav a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+}
+  
+nav a:hover {
+    background: #444;
+}
+  

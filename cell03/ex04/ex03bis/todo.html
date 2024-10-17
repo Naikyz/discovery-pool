@@ -1,0 +1,123 @@
+<!DOCTYPE HTML>
+<html>
+
+<style>
+    .ft_list {
+        width: 800px;
+    }
+</style>
+
+<head>
+    <script src="../jquery-3.7.1.min.js"></script>
+    <script src="../../jquery/jquery.cookie.js"></script>
+</head>
+
+<body>
+    <center>
+        <div id="ft_list">
+
+        </div>
+        <button onclick="addTodo()">
+            New
+        </button>
+    </center>
+</body>
+<script>
+    $.cookie.json = true;
+
+    function loadTodoFromCookies(list, todoListArr) {
+        todoListArr.slice().reverse().forEach(element => {
+            var div = $('<div>')
+                .attr('id', element.id)
+                .text(element.name)
+                .css({
+                'width': '100%',
+                'height': '30px',
+                'background-color': "#" + Math.floor(Math.random() * 16777215).toString(16),
+                'display': 'flex',
+                'justify-content': 'center',
+                'alignItems': 'center',
+
+            })
+            var br = $('<br>')
+            div.append(br)
+            list.prepend(div)
+            div.on('click', () => {
+                let answer = confirm("Are you sure you want to delete this todo ?")
+                
+                if (answer === true) {
+                    todoListArr = todoListArr.filter(todo =>
+                        todo.id !== parseInt(div.id)
+                    )
+                    div.remove();
+                    $.cookie("todoList", JSON.stringify(todoListArr), { expire: 7, path: '/mnt/nfs/homes/kpaulin/discovery_piscine/cell03/ex04/ex03bis'})
+                }
+            })
+        });
+    }
+
+    function getCookie(name) {
+        let cookieArr = document.cookie.split(";");
+        for(let i = 0; i < cookieArr.length; i++) {
+            let cookiePair = cookieArr[i].split("=");
+            
+            if(name == cookiePair[0].trim()) {
+                return decodeURIComponent(cookiePair[1]);
+            }
+
+            return null;
+        }
+    }
+
+    let list = $('#ft_list')
+    let todoListCookie = $.cookie('todoList')
+    let todoListArr = todoListCookie ? JSON.parse(todoListCookie) : []
+    loadTodoFromCookies(list, todoListArr)
+
+    function addTodo() {
+        let todoName = prompt("Enter a new Task ...");
+        let todoID = 0;
+        if (todoListArr.length > 0) {
+            todoListArr.slice().reverse().forEach(element => {
+                if (element.id > todoID) {
+                    todoID = element.id
+                }
+            })
+            todoID += 1;
+        }
+
+        if (todoName === "" || todoName === null)
+            return;
+
+        var div = $('<div>')
+            .attr('id', todoID)
+            .text(todoName)
+            .css({
+            'width': '100%',
+            'height': '30px',
+            'background-color': "#" + Math.floor(Math.random() * 16777215).toString(16),
+            'display': 'flex',
+            'justify-content': 'center',
+            'alignItems': 'center',
+        })
+        var br = $('<br>')
+        div.append(br)
+        list.prepend(div)
+        div.on('click', () => {
+            let answer = confirm("Are you sure you want to delete this todo ?")
+            
+            if (answer === true) {
+                todoListArr = todoListArr.filter(todo =>
+                    todo.id !== parseInt(div.id)
+                )
+                div.remove();
+                $.cookie("todoList", JSON.stringify(todoListArr), { expire: 7, path: '/mnt/nfs/homes/kpaulin/discovery_piscine/cell03/ex04/ex03bis'})
+            }
+        })
+        todoListArr.unshift({id: todoID, name: todoName})
+        todoID += 1;
+        $.cookie("todoList", JSON.stringify(todoListArr), { expire: 7, path: '/mnt/nfs/homes/kpaulin/discovery_piscine/cell03/ex04/ex03bis'})
+    }
+</script>
+
+</html>

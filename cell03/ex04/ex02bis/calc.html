@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <script src="../jquery-3.7.1.min.js"></script>
+</head>
+
+<body>
+    <form id="calculator">
+        <input name="first" type="text" id="first">
+        <select name="operator" id="">
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="*">*</option>
+            <option value="/">/</option>
+            <option value="%">%</option>
+        </select>
+        <input name="second" type="text" id="second">
+        <input type="submit" value="Try me!">
+    </form>
+
+    <script>
+        setInterval(() => {
+            alert("Please, use me...")
+        }, 30000)
+
+        function isNumeric(value) {
+            return /^-?\d+$/.test(value);
+        }
+
+        $(document).ready(function() {
+            $('#calculator').on('submit', function (event) {
+                event.preventDefault();
+                const first = $("#first").val();
+                const operator = $('select[name="operator"]').val();
+                const second = $("#second").val();
+                let result = 0;
+
+                if (!isNumeric(first) || !isNumeric(second)) {
+                    console.log(first, second)
+                    alert("Error :(");
+                    return;
+                }
+
+                if (operator === "%" && parseInt(second) === 0) {
+                    alert("It's over 9000!");
+                    console.log("It's over 9000!");
+                    return;
+                }
+
+                result = eval(`${first} ${operator} ${second}`);
+
+                alert(result);
+                console.log(result);
+                return;
+            })
+        })
+    </script>
+</body>
+
+</html>

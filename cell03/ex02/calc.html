@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html>
+
+<style>
+</style>
+
+<body>
+    <form onsubmit="calculate(event)" id="calculator">
+        <input name="first" type="text" id="first">
+        <select name="operator" id="">
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="*">*</option>
+            <option value="/">/</option>
+            <option value="%">%</option>
+        </select>
+        <input name="second" type="text" id="second">
+        <input type="submit" value="Try me!">
+    </form>
+
+    <script>
+        setInterval(() => {
+            alert("Please, use me...")
+        }, 30000)
+
+        function isNumeric(value) {
+            return /^-?\d+$/.test(value);
+        }
+
+        function calculate(event) {
+            event.preventDefault();
+            const form = event.target;
+            const first = form.elements["first"].value;
+            const operator = form.elements["operator"].value;
+            const second = form.elements["second"].value;
+            let result = 0;
+
+            if (!isNumeric(first) || !isNumeric(second)) {
+                alert("Error :(");
+                return;
+            }
+
+            if (operator === "%" && parseInt(second) === 0) {
+                alert("It's over 9000!");
+                console.log("It's over 9000!");
+                return;
+            }
+
+            result = eval(`${first} ${operator} ${second}`);
+
+            alert(result);
+            console.log(result);
+            return;
+            
+        }
+    </script>
+</body>
+
+</html>

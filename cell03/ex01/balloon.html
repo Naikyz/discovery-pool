@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<html>
+
+<style>
+    html {
+        height: 100vh;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    div {
+        width: 200px;
+        height: 200px;
+        background-color: red;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 100%;
+    }
+
+    button {
+        height: 50px;
+    }
+</style>
+
+<body>
+    <div id="balloon" onclick="core()">
+    </div>
+
+    <script>
+        let balloon = document.getElementById('balloon')
+        let balloonStyle = window.getComputedStyle(balloon)
+        let color = balloonStyle.getPropertyValue('background-color')
+        let balloonWidth = parseInt(balloonStyle.getPropertyValue('width').replace(/[^0-9]/g, ''));
+        let balloonHeight = parseInt(balloonStyle.getPropertyValue('height').replace(/[^0-9]/g, ''));
+
+        function changeColor(color, balloon) {
+            if (color === "rgb(255, 0, 0)")
+                balloon.style.backgroundColor = "rgb(0, 255, 0)"
+            else if (color === "rgb(0, 255, 0)")
+                balloon.style.backgroundColor = "rgb(0, 0, 255)"
+            else if (color === "rgb(0, 0, 255)")
+                balloon.style.backgroundColor = "rgb(255, 0, 0)"
+        }
+
+        function changeColorReverse(color, balloon) {
+            if (color === "rgb(0, 255, 0)")
+                balloon.style.backgroundColor = "rgb(255, 0, 0)"
+            else if (color === "rgb(0, 0, 255)")
+                balloon.style.backgroundColor = "rgb(0, 255, 0)"
+            else if (color === "rgb(255, 0, 0)")
+                balloon.style.backgroundColor = "rgb(0, 0, 255)"
+        }
+
+        function swell(balloonWidth, balloonHeight, balloon) {
+            if (balloonWidth + 10 < 420 && balloonHeight + 10 < 420) {
+                balloon.style.width = balloonWidth + 10 + "px"
+                balloon.style.height = balloonHeight + 10 + "px"
+            } else {
+                balloon.style.width = "200px"
+                balloon.style.height = "200px"
+            }
+        }
+
+        function unswell(balloonWidth, balloonHeight, balloon) {
+            if (balloonWidth - 5 > 200 && balloonHeight - 5 > 200) {
+                balloon.style.width = balloonWidth - 5 + "px"
+                balloon.style.height = balloonHeight - 5 + "px"
+            }
+        }
+
+        function core() {
+            balloon = document.getElementById('balloon')
+            balloonStyle = window.getComputedStyle(balloon)
+            color = balloonStyle.getPropertyValue('background-color')
+            balloonWidth = parseInt(balloonStyle.getPropertyValue('width').replace(/[^0-9]/g, ''));
+            balloonHeight = parseInt(balloonStyle.getPropertyValue('height').replace(/[^0-9]/g, ''));
+
+            changeColor(color, balloon)
+            swell(balloonWidth, balloonHeight, balloon)
+        }
+
+        balloon.addEventListener('mouseleave', () => {
+            balloon = document.getElementById('balloon')
+            balloonStyle = window.getComputedStyle(balloon)
+            color = balloonStyle.getPropertyValue('background-color')
+            balloonWidth = parseInt(balloonStyle.getPropertyValue('width').replace(/[^0-9]/g, ''));
+            balloonHeight = parseInt(balloonStyle.getPropertyValue('height').replace(/[^0-9]/g, ''));
+
+            changeColorReverse(color, balloon)
+            unswell(balloonWidth, balloonHeight, balloon)
+        })
+    </script>
+</body>
+
+</html>

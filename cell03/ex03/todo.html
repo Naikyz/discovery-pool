@@ -1,0 +1,112 @@
+<!DOCTYPE HTML>
+<html>
+
+<style>
+    .ft_list {
+        width: 800px;
+    }
+</style>
+
+<body>
+    <center>
+        <div id="ft_list">
+
+        </div>
+        <button onclick="addTodo()">
+            New
+        </button>
+    </center>
+</body>
+<script>
+    function loadTodoFromCookies(list, todoListArr) {
+        todoListArr.slice().reverse().forEach(element => {
+            var div = document.createElement("DIV");
+            div.style.width = "100%"
+            div.style.height = "30px"
+            div.style.backgroundColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
+            div.style.display = "flex"
+            div.style.justifyContent = "center"
+            div.style.alignItems = "center"
+            div.id = element.id
+            var br = document.createElement("BR")
+            var textTodoName = document.createTextNode(element.name);
+            div.appendChild(textTodoName)
+            div.appendChild(br)
+            list.prepend(div)
+            div.addEventListener('click', () => {
+                let answer = confirm("Are you sure you want to delete this todo ?")
+                
+                if (answer === true) {
+                    todoListArr = todoListArr.filter(todo =>
+                        todo.id !== parseInt(div.id)
+                    )
+                    div.remove();
+                    document.cookie = "todoList=" + JSON.stringify(todoListArr) + "; SameSite=Lax; max-age=86400; path=/mnt/nfs/homes/kpaulin/discovery_piscine/cell03/ex03; Secure;";
+                }
+            })
+        });
+    }
+
+    function getCookie(name) {
+        let cookieArr = document.cookie.split(";");
+        for(let i = 0; i < cookieArr.length; i++) {
+            let cookiePair = cookieArr[i].split("=");
+            
+            if(name == cookiePair[0].trim()) {
+                return decodeURIComponent(cookiePair[1]);
+            }
+
+            return null;
+        }
+    }
+
+    let list = document.getElementById("ft_list")
+    let todoListArr = JSON.parse(getCookie("todoList")) ?? []
+    let todoID = 0;
+    if (todoListArr.length > 0) {
+        todoListArr.slice().reverse().forEach(element => {
+            if (element.id > todoID) {
+                todoID = element.id
+            }
+        })
+        todoID += 1;
+    }
+    loadTodoFromCookies(list, todoListArr)
+
+    function addTodo() {
+        let todoName = prompt("Enter a new Task ...");
+
+        if (todoName === "" || todoName === null)
+            return;
+
+        var div = document.createElement("DIV");
+        div.style.width = "100%"
+        div.style.height = "30px"
+        div.style.backgroundColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
+        div.style.display = "flex"
+        div.style.justifyContent = "center"
+        div.style.alignItems = "center"
+        div.id = todoID
+        var br = document.createElement("BR")
+        var textTodoName = document.createTextNode(todoName);
+        div.appendChild(textTodoName)
+        div.appendChild(br)
+        list.prepend(div)
+        div.addEventListener('click', () => {
+            let answer = confirm("Are you sure you want to delete this todo ?")
+            
+            if (answer === true) {
+                todoListArr = todoListArr.filter(todo =>
+                    todo.id !== parseInt(div.id)
+                )
+                div.remove();
+                document.cookie = "todoList=" + JSON.stringify(todoListArr) + "; SameSite=Lax; max-age=86400; path=/mnt/nfs/homes/kpaulin/discovery_piscine/cell03/ex03; Secure;";
+            }
+        })
+        todoListArr.unshift({id: todoID, name: todoName})
+        todoID += 1;
+        document.cookie = "todoList=" + JSON.stringify(todoListArr) + "; SameSite=Lax; max-age=86400; path=/mnt/nfs/homes/kpaulin/discovery_piscine/cell03/ex03; Secure;";
+    }
+</script>
+
+</html>

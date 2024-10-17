@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <script src="../jquery-3.7.1.min.js"></script>
+    <script>
+        function changeColor() {
+            $('body').css('background-color', "#" + Math.floor(Math.random()*16777215).toString(16));
+        }
+    </script>
+</head>
+
+<body style="text-align:center;">
+    <button onclick="changeColor()">
+        Change color
+    </button>
+</body>
+
+</html>
